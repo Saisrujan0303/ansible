@@ -1,0 +1,40 @@
+---
+- name: this palybook install httpd
+  hosts: all
+  become: true
+  vars:
+    port: 8081
+  tasks: 
+  - name: install package
+    yum:
+      name: httpd
+      state: installed
+    when: ansible_os_family == "RedHat"
+    notify: start apache
+
+  - name: copy sai.txt
+    copy:
+     src: /home/ansadmin/sai.txt
+     dest: /home/ansadmin
+     mode: 0666
+
+  - name: ensure the port is {{ port }}
+    lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen '
+        insertafter: '^#Listen '
+        line: Listen {{ port }}
+    when: ansible_os_family == "RedHat"
+    notify: restart apache
+
+  handlers:
+    - name: start apache
+      service:
+         name: httpd
+         state: started
+
+    - name: restart apache
+      service:
+          name: httpd
+          state: restarted
+

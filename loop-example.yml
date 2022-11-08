@@ -1,0 +1,16 @@
+---
+- name: Install the required pack
+  hosts: all
+  become: true
+  tasks:
+   - name: installing pack  
+     yum: 
+         name: "{{ item.name }}"
+         state: latest
+     with_items:
+        - { name: wget }
+        - { name: git }
+        - { name: net-tools }
+        - { name: bind-utils }
+        - { name: iptables-services }
+        - { name: bridge-utils }

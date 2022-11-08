@@ -1,0 +1,12 @@
+---
+- name: copy file to hosts
+  hosts: all
+  become: true
+  tasks:
+  - name: copy file
+    copy:
+      src: /home/ansadmin/teja.txt
+      dest: /home/ansadmin
+      mode: 0600
+      owner: ansadmin  
+

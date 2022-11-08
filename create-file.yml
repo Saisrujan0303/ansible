@@ -1,0 +1,15 @@
+---
+- name: palybook to create a file and install git
+  hosts: all
+  become: true
+  tasks:
+  - name: to install git on all hosts
+    yum:
+      name: git
+      state: installed
+
+  - name: to create file
+    file:
+      path: /home/ansadmin/srujan
+      state: touch  
+             
